@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:weather_app_last_edited/pages/home/cubit/home_cubit.dart';
 import 'package:weather_app_last_edited/pages/home/home_page.dart';
 import 'package:weather_app_last_edited/pages/search/cubit/search_cubit.dart';
+import 'package:weather_app_last_edited/pages/search/search_page.dart';
 
 import 'helpers/api_helper/cubit/api_weather_cubit.dart';
 import 'helpers/hive_helper.dart';

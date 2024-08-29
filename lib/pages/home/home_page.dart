@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app_last_edited/helpers/hive_helper.dart';
 import 'package:weather_app_last_edited/models/month_model.dart';
 
 import '../../components/feature_data.dart';
@@ -16,9 +17,9 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xFF301F4D),
           appBar: AppBar(
-            backgroundColor: Colors.blue,
+            backgroundColor: Color(0xFF301F4D),
             title: Row(
               children: [
                 Icon(
@@ -56,110 +57,160 @@ class HomePage extends StatelessWidget {
               )
             ],
           ),
-          body: Center(
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Spacer(
-                  flex: 2,
-                ),
-                Text(
-                  cubit.weatherModel == null
-                      ? "June 07"
-                      : "${MonthModel.getFromApi(cubit.weatherModel)}",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
+          body: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                  Color(0xFF301F4D),
+                  Color(0xFF301F4D),
+                  Color(0xFF301F4D),
+                  Color(0xFF462363),
+                  // Color(0xFF462363),
+                  Color(0xFF462363),
+                  // Color(0xFF020103),
+                  Color(0xFF020103),
+                  Color(0xFF020103)
+                ])),
+            child: Center(
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Spacer(
+                    flex: 2,
                   ),
-                ),
-                Text(
-                  cubit.weatherModel == null
-                      ? "updated 7/6/2023 4:55 pm "
-                      : "updated ${cubit.weatherModel!.date}",
-                  style: TextStyle(
-                    color: Colors.white,
+                  Text(
+                    cubit.weatherModel == null
+                        ? "June 07"
+                        : "${MonthModel.getFromApi(cubit.weatherModel)}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Spacer(
-                  flex: 2,
-                ),
-                Image.network(
-                  cubit.weatherModel == null
-                      ? "http://cdn.weatherapi.com/weather/64x64/day/116.png"
-                      : cubit.weatherModel!.image,
-                ),
-                Text(
-                  cubit.weatherModel == null
-                      ? "Clear"
-                      : cubit.weatherModel!.stateName,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 45,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    cubit.weatherModel == null
+                        ? "updated 7/6/2023 4:55 pm "
+                        : "updated ${cubit.weatherModel!.date}",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                Text(
-                  cubit.weatherModel == null
-                      ? "30\u00B0"
-                      : "${cubit.weatherModel!.temp_now.toInt()}\u00B0",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 45,
-                    fontWeight: FontWeight.bold,
+                  Spacer(
+                    flex: 2,
                   ),
-                ),
-                Spacer(
-                  flex: 2,
-                ),
-                Container(
-                  // color: Colors.red,
-                  height: MediaQuery.sizeOf(context).height * 0.1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      FeatureData(
-                          icon: Icons.water_drop_outlined,
-                          propertyName: "Humidity",
-                          percentage: cubit.weatherModel == null
-                              ? "47%"
-                              : "${cubit.weatherModel!.humidity}%"),
-                      FeatureData(
-                          icon: CupertinoIcons.wind,
-                          propertyName: "Wind",
-                          percentage: cubit.weatherModel == null
-                              ? "4.53km/h"
-                              : "${cubit.weatherModel!.windSpeed}km/h"),
-                      FeatureData(
-                          icon: Icons.thermostat_outlined,
-                          propertyName: "Feals like",
-                          percentage: cubit.weatherModel == null
-                              ? "30"
-                              : "${cubit.weatherModel!.feelsLike.toInt()}\u00B0"),
-                    ],
+                  Image.network(
+                    cubit.weatherModel == null
+                        ? "http://cdn.weatherapi.com/weather/64x64/day/116.png"
+                        : cubit.weatherModel!.image,
                   ),
-                ),
-                Spacer(),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16),
-                  height: MediaQuery.sizeOf(context).height * 0.157,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Color(0xFFAAA5A5).withOpacity(0.5),
+                  Text(
+                    cubit.weatherModel == null
+                        ? "Clear"
+                        : cubit.weatherModel!.stateName,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 45,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ForecastDay(),
-                      ForecastDay(),
-                      ForecastDay(),
-                      ForecastDay(),
-                      ForecastDay(),
-                    ],
+                  Text(
+                    cubit.weatherModel == null
+                        ? "30\u00B0"
+                        : "${cubit.weatherModel!.temp_now.toInt()}\u00B0",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 45,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Spacer(),
-              ],
+                  Spacer(
+                    flex: 2,
+                  ),
+                  Container(
+                    // color: Colors.green,
+                    height: MediaQuery.sizeOf(context).height * 0.09,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FeatureData(
+                            icon: Icons.wb_sunny,
+                            propertyName: "Sunrise",
+                            percentage: cubit.weatherModel == null
+                                ? "05:32 AM"
+                                : cubit.weatherModel!.sunrise,
+                          ),
+                          FeatureData(
+                            icon: Icons.nights_stay_outlined,
+                            propertyName: "Sunset",
+                            percentage: cubit.weatherModel == null
+                                ? "05:32 AM"
+                                : cubit.weatherModel!.sunset,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    // color: Colors.red,
+                    height: MediaQuery.sizeOf(context).height * 0.1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FeatureData(
+                            icon: Icons.water_drop_outlined,
+                            propertyName: "Humidity",
+                            percentage: cubit.weatherModel == null
+                                ? "47%"
+                                : "${cubit.weatherModel!.humidity}%"),
+                        FeatureData(
+                            icon: CupertinoIcons.wind,
+                            propertyName: "Wind",
+                            percentage: cubit.weatherModel == null
+                                ? "4.53km/h"
+                                : "${cubit.weatherModel!.windSpeed}km/h"),
+                        FeatureData(
+                            icon: Icons.thermostat_outlined,
+                            propertyName: "Feals like",
+                            percentage: cubit.weatherModel == null
+                                ? "30"
+                                : "${cubit.weatherModel!.feelsLike.toInt()}\u00B0"),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    height: MediaQuery.sizeOf(context).height * 0.174,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Color(0xFFAAA5A5).withOpacity(0.4),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (c, i) => (cubit.weatherModel != null)
+                            ? ForecastDay(
+                                index: i,
+                                weatherModel: cubit.weatherModel,
+                              )
+                            : ForecastDay(),
+                        separatorBuilder: (c, i) => SizedBox(
+                          width: MediaQuery.sizeOf(context).width * 0.04,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                ],
+              ),
             ),
           ),
         );

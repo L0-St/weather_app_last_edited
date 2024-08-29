@@ -13,7 +13,7 @@ class SearchCubit extends Cubit<SearchState> {
   late Map<String, dynamic> tempList;
   Future<void> getWeather(String c_name) async {
     final response = await _dio.get(
-        "https://api.weatherapi.com/v1/forecast.json?key=c41fcb3ab8554f4ab0d45621242008&q=${c_name}&days=1&aqi=no&alerts=no");
+        "https://api.weatherapi.com/v1/forecast.json?key=c41fcb3ab8554f4ab0d45621242008&q=${c_name}&days=5&aqi=no&alerts=no");
     print("#" * 50);
     if (response.statusCode == 200) {
       print(response.data);

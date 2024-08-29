@@ -26,13 +26,16 @@ class WeatherModelAdapter extends TypeAdapter<WeatherModel> {
       image: fields[2] as String,
       temp_day: fields[7] as double,
       date: fields[8] as String,
+      forecastDays: (fields[9] as List).cast<dynamic>(),
+      sunrise: fields[11] as String,
+      sunset: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, WeatherModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.cityName)
       ..writeByte(1)
@@ -50,7 +53,13 @@ class WeatherModelAdapter extends TypeAdapter<WeatherModel> {
       ..writeByte(7)
       ..write(obj.temp_day)
       ..writeByte(8)
-      ..write(obj.date);
+      ..write(obj.date)
+      ..writeByte(9)
+      ..write(obj.forecastDays)
+      ..writeByte(10)
+      ..write(obj.sunset)
+      ..writeByte(11)
+      ..write(obj.sunrise);
   }
 
   @override

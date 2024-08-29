@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:weather_app_last_edited/models/weather_model.dart';
 
 class MonthModel {
@@ -50,5 +51,12 @@ class MonthModel {
     }
 
     return fullDate;
+  }
+
+  static String? getDayCast(String date) {
+    DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(date);
+    String formattedDate = DateFormat('MMM d').format(parsedDate);
+
+    return formattedDate;
   }
 }

@@ -23,7 +23,12 @@ class WeatherModel extends HiveObject {
   double temp_day;
   @HiveField(8)
   String date;
-
+  @HiveField(9)
+  List forecastDays;
+  @HiveField(10)
+  String sunset;
+  @HiveField(11)
+  String sunrise;
   WeatherModel({
     required this.cityName,
     required this.stateName,
@@ -34,12 +39,13 @@ class WeatherModel extends HiveObject {
     required this.image,
     required this.temp_day,
     required this.date,
+    required this.forecastDays,
+    required this.sunrise,
+    required this.sunset,
   });
 
   static WeatherModel getWeatherModel(Map json) {
     var day = json["forecast"]["forecastday"][0]["day"];
-    ForecastDay.forecastDays = json["forecast"]["forecastday"];
-    print("&&&&&&&&&&&&${ForecastDay.forecastDays}");
     return WeatherModel(
       cityName: json["location"]["name"],
       stateName: day["condition"]["text"],
@@ -50,6 +56,9 @@ class WeatherModel extends HiveObject {
       image: "http:" + day["condition"]["icon"],
       temp_now: json["current"]["temp_c"],
       date: json["location"]["localtime"],
+      forecastDays: json["forecast"]["forecastday"],
+      sunrise: json["forecast"]["forecastday"][0]["astro"]["sunrise"],
+      sunset: json["forecast"]["forecastday"][0]["astro"]["sunset"],
     );
   }
 }
