@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:weather_app_last_edited/pages/home/home_page.dart';
 import '../../helpers/api_helper/cubit/api_weather_cubit.dart';
 import '../../helpers/hive_helper.dart';
 import '../home/cubit/home_cubit.dart';
@@ -22,7 +23,12 @@ class SearchPage extends StatelessWidget {
         backgroundColor: const Color(0xFF262171),
         leading: IconButton(
           onPressed: () {
-            Get.back();
+            // TODO : update project
+            if (HiveHelper.citiesList.isNotEmpty) {
+              Get.back();
+            } else if (HiveHelper.citiesList.length == 1) {
+              Get.to(HomePage());
+            }
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -89,7 +95,12 @@ class SearchPage extends StatelessWidget {
         print(
           "=============>${context.read<HomeCubit>().weatherModel?.cityName ?? "City one"}",
         );
-        Get.back();
+        // TODO : update project
+        if (HiveHelper.citiesList.isNotEmpty) {
+          Get.back();
+        } else if (HiveHelper.citiesList.length == 1) {
+          Get.to(HomePage());
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

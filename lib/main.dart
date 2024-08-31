@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:weather_app_last_edited/pages/home/cubit/home_cubit.dart';
+import 'package:weather_app_last_edited/pages/home/home_page.dart';
 import 'package:weather_app_last_edited/pages/search/cubit/search_cubit.dart';
 import 'package:weather_app_last_edited/pages/splash/my_city.dart';
 
@@ -12,8 +13,6 @@ import 'helpers/hive_helper.dart';
 import 'models/weather_model.dart';
 
 void main() async {
-  // Ensures Flutter bindings are initialized
-
   await Hive.initFlutter();
   Hive.registerAdapter(WeatherModelAdapter());
   var box = await Hive.openBox(HiveHelper.citiesBox);
@@ -44,7 +43,7 @@ class WeatherApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MyCity(),
+        home: HomePage(),
       ),
     );
   }

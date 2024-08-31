@@ -17,7 +17,7 @@ class HomeCubit extends Cubit<HomeState> {
 
 // TODO : add
   void initHome() {
-    Future.delayed(Duration(milliseconds: 900), () {
+    Future.delayed(Duration(milliseconds: 500), () {
       // Do something
       print("==========> initHome");
       HiveHelper.updateMyCity();
