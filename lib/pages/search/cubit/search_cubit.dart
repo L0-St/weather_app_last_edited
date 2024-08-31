@@ -24,6 +24,7 @@ class SearchCubit extends Cubit<SearchState> {
   Future<void> addCity(String text) async {
     await getWeather(text);
     // var day = tempList!["forecast"]["forecastday"][0]["day"];
+    print("===========> City added ");
     HiveHelper.addCity(WeatherModel.getWeatherModel(tempList));
     emit(SearchAddCity());
   }
@@ -31,5 +32,12 @@ class SearchCubit extends Cubit<SearchState> {
   void removeCity(int index) {
     HiveHelper.removeCity(index);
     emit(SearchRemoveCity());
+  }
+
+  // TODO: add
+  void init() {
+    print("=====================> Initial State");
+    HiveHelper.updateAllCities();
+    emit(SearchUpdateCities());
   }
 }

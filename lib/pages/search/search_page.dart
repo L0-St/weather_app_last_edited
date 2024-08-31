@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:weather_app_last_edited/models/month_model.dart';
-import 'package:weather_app_last_edited/pages/home/home_page.dart';
-
+import 'package:get/get.dart';
 import '../../helpers/api_helper/cubit/api_weather_cubit.dart';
 import '../../helpers/hive_helper.dart';
 import '../home/cubit/home_cubit.dart';
@@ -12,24 +10,27 @@ import 'cubit/search_cubit.dart';
 class SearchPage extends StatelessWidget {
   final TextEditingController _cityNameController = TextEditingController();
 
+  SearchPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SearchCubit>();
 
     return Scaffold(
-      backgroundColor: Color(0xFF262171),
+      backgroundColor: const Color(0xFF262171),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF262171),
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color(0xFF),
-        title: Text(
+        // backgroundColor: const Color(0xFF),
+        title: const Text(
           "Saved Locations",
           style: TextStyle(color: Colors.white),
         ),
@@ -39,7 +40,7 @@ class SearchPage extends StatelessWidget {
                 _cityNameController.text = "";
                 showAlertDialog(context, cubit: cubit);
               },
-              icon: Icon(
+              icon: const Icon(
                 // size: 28,
                 Icons.search,
                 color: Colors.white,
@@ -63,7 +64,7 @@ class SearchPage extends StatelessWidget {
                               cubit.removeCity(index);
                               // setState(() {});
                             },
-                            backgroundColor: Color(0xFFFE4A49),
+                            backgroundColor: const Color(0xFFFE4A49),
                             foregroundColor: Colors.white,
                             icon: Icons.delete,
                             label: 'Delete',
@@ -88,15 +89,15 @@ class SearchPage extends StatelessWidget {
         print(
           "=============>${context.read<HomeCubit>().weatherModel?.cityName ?? "City one"}",
         );
-        Navigator.pop(context);
+        Get.back();
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         height: 165,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xFFAAA5A5).withOpacity(0.5),
+          color: const Color(0xFFAAA5A5).withOpacity(0.5),
           borderRadius: BorderRadius.circular(24),
         ),
         child: Column(
@@ -109,7 +110,7 @@ class SearchPage extends StatelessWidget {
                   children: [
                     Text(
                       HiveHelper.citiesList[index].cityName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -117,7 +118,7 @@ class SearchPage extends StatelessWidget {
                     ),
                     Text(
                       HiveHelper.citiesList[index].stateName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -125,11 +126,11 @@ class SearchPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Image.network(HiveHelper.citiesList[index].image),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               children: [
                 Column(
@@ -152,10 +153,10 @@ class SearchPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "${HiveHelper.citiesList[index].temp_now.toInt()}\u00B0",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 45,
                     fontWeight: FontWeight.bold,
@@ -172,7 +173,7 @@ class SearchPage extends StatelessWidget {
   showAlertDialog(BuildContext context, {required SearchCubit cubit}) {
     // set up the button
     Widget okButton = TextButton(
-      child: Text(
+      child: const Text(
         "OK",
         style: TextStyle(
             // color: Colors.white,
@@ -183,7 +184,9 @@ class SearchPage extends StatelessWidget {
         await cubit.getWeather(_cityNameController.text);
         await cubit.addCity(_cityNameController.text);
         // setState(() {});
-        Navigator.pop(context);
+        //TODO : use Getx to navigation
+        // Navigator.pop(context);
+        Get.back();
       },
     );
 
@@ -198,7 +201,7 @@ class SearchPage extends StatelessWidget {
         ),
         child: TextFormField(
           controller: _cityNameController,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             // label: Text("Search"),
             hintText: "Search",
             hintStyle: TextStyle(

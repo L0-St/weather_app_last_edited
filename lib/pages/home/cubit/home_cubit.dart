@@ -14,4 +14,14 @@ class HomeCubit extends Cubit<HomeState> {
     weatherModel = HiveHelper.citiesList[index];
     emit(HomeUpdate());
   }
+
+// TODO : add
+  void initHome() {
+    Future.delayed(Duration(milliseconds: 900), () {
+      // Do something
+      print("==========> initHome");
+      HiveHelper.updateMyCity();
+      emit(HomeFirstUpdate());
+    });
+  }
 }

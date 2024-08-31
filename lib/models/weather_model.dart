@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:weather_app_last_edited/components/forecast_day.dart';
 part 'weather_model.g.dart';
 
 @HiveType(typeId: 0)

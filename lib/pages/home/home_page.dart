@@ -3,26 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app_last_edited/helpers/hive_helper.dart';
 import 'package:weather_app_last_edited/models/month_model.dart';
+import 'package:weather_app_last_edited/pages/search/cubit/search_cubit.dart';
 
 import '../../components/feature_data.dart';
 import '../../components/forecast_day.dart';
-import '../../models/weather_model.dart';
 import '../search/search_page.dart';
 import 'cubit/home_cubit.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<HomeCubit>();
+
+    //TODO:add cubit for search
+    final cubitSearch = context.read<SearchCubit>();
+
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
+        // TODO : check HiveHelper.citiesList
         return Scaffold(
-          backgroundColor: Color(0xFF301F4D),
+          // backgroundColor: Color(0xFF301F4D),
           appBar: AppBar(
-            backgroundColor: Color(0xFF301F4D),
+            backgroundColor: const Color(0xFF301F4D),
             title: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.location_on,
                   color: Colors.white,
                   size: 28,
@@ -32,24 +39,29 @@ class HomePage extends StatelessWidget {
                 ),
                 Text(
                   cubit.weatherModel == null
-                      ? "Paris"
+                      ?
+                      // TODO : add first cityName
+                      HiveHelper.citiesList[0].cityName
                       : cubit.weatherModel!.cityName,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ],
             ),
             actions: [
               IconButton(
                 onPressed: () {
-                  var push = Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SearchPage(
-                            // updateUi: updateUi,
-                            ),
-                      ));
+                  //TODO:add update searchPage when open
+                  cubitSearch.init();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchPage(
+                          // updateUi: updateUi,
+                          ),
+                    ),
+                  );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.menu,
                   color: Colors.white,
                   size: 28,
@@ -58,7 +70,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
           body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -77,14 +89,17 @@ class HomePage extends StatelessWidget {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Spacer(
+                  const Spacer(
                     flex: 2,
                   ),
                   Text(
                     cubit.weatherModel == null
-                        ? "June 07"
+                        ?
+                        // TODO : add first date
+                        MonthModel.getDayCast(
+                            HiveHelper.citiesList[0].forecastDays[0]["date"])!
                         : "${MonthModel.getFromApi(cubit.weatherModel)}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
@@ -92,25 +107,31 @@ class HomePage extends StatelessWidget {
                   ),
                   Text(
                     cubit.weatherModel == null
-                        ? "updated 7/6/2023 4:55 pm "
+                        ?
+                        // TODO : Update date
+                        "updated ${HiveHelper.citiesList[0].date}"
                         : "updated ${cubit.weatherModel!.date}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
-                  Spacer(
+                  const Spacer(
                     flex: 2,
                   ),
                   Image.network(
                     cubit.weatherModel == null
-                        ? "http://cdn.weatherapi.com/weather/64x64/day/116.png"
+                        ?
+                        // TODO : add image
+                        HiveHelper.citiesList[0].image
                         : cubit.weatherModel!.image,
                   ),
                   Text(
                     cubit.weatherModel == null
-                        ? "Clear"
+                        ?
+                        // TODO : add stateName
+                        HiveHelper.citiesList[0].stateName
                         : cubit.weatherModel!.stateName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 45,
                       fontWeight: FontWeight.bold,
@@ -118,20 +139,22 @@ class HomePage extends StatelessWidget {
                   ),
                   Text(
                     cubit.weatherModel == null
-                        ? "30\u00B0"
+                        ?
+                        // TODO : add temp_now
+                        "${HiveHelper.citiesList[0].temp_now.toInt()}\u00B0"
                         : "${cubit.weatherModel!.temp_now.toInt()}\u00B0",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 45,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Spacer(
+                  const Spacer(
                     flex: 2,
                   ),
                   Container(
                     // color: Colors.green,
-                    height: MediaQuery.sizeOf(context).height * 0.09,
+                    height: MediaQuery.sizeOf(context).height * 0.1,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -141,21 +164,25 @@ class HomePage extends StatelessWidget {
                             icon: Icons.wb_sunny,
                             propertyName: "Sunrise",
                             percentage: cubit.weatherModel == null
-                                ? "05:32 AM"
+                                ?
+                                // TODO : add sunrise
+                                HiveHelper.citiesList[0].sunrise
                                 : cubit.weatherModel!.sunrise,
                           ),
                           FeatureData(
                             icon: Icons.nights_stay_outlined,
                             propertyName: "Sunset",
                             percentage: cubit.weatherModel == null
-                                ? "05:32 AM"
+                                ?
+                                // TODO : add sunset
+                                HiveHelper.citiesList[0].sunset
                                 : cubit.weatherModel!.sunset,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     // color: Colors.red,
                     height: MediaQuery.sizeOf(context).height * 0.1,
@@ -166,33 +193,39 @@ class HomePage extends StatelessWidget {
                             icon: Icons.water_drop_outlined,
                             propertyName: "Humidity",
                             percentage: cubit.weatherModel == null
-                                ? "47%"
+                                ?
+                                // TODO : add humidity
+                                "${HiveHelper.citiesList[0].humidity}%"
                                 : "${cubit.weatherModel!.humidity}%"),
                         FeatureData(
                             icon: CupertinoIcons.wind,
                             propertyName: "Wind",
                             percentage: cubit.weatherModel == null
-                                ? "4.53km/h"
+                                ?
+                                // TODO : add windSpeed
+                                "${HiveHelper.citiesList[0].windSpeed}km/h"
                                 : "${cubit.weatherModel!.windSpeed}km/h"),
                         FeatureData(
                             icon: Icons.thermostat_outlined,
                             propertyName: "Feals like",
                             percentage: cubit.weatherModel == null
-                                ? "30"
+                                ?
+                                // TODO : add feelsLike
+                                "${HiveHelper.citiesList[0].feelsLike.toInt()}\u00B0"
                                 : "${cubit.weatherModel!.feelsLike.toInt()}\u00B0"),
                       ],
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    height: MediaQuery.sizeOf(context).height * 0.174,
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    height: MediaQuery.sizeOf(context).height * 0.2,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: Color(0xFFAAA5A5).withOpacity(0.4),
+                      color: const Color(0xFFAAA5A5).withOpacity(0.4),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
@@ -201,14 +234,18 @@ class HomePage extends StatelessWidget {
                                 index: i,
                                 weatherModel: cubit.weatherModel,
                               )
-                            : ForecastDay(),
+                            : ForecastDay(
+                                // TODO : forecastDays
+                                index: i,
+                                weatherModel: HiveHelper.citiesList[0],
+                              ),
                         separatorBuilder: (c, i) => SizedBox(
-                          width: MediaQuery.sizeOf(context).width * 0.04,
-                        ),
+                            // width: MediaQuery.sizeOf(context).width * 0.001,
+                            ),
                       ),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),
